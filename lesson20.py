@@ -1,9 +1,6 @@
 from tkinter import *
-from tkinter import messagebox
 
 import matplotlib
-import random
-import numpy as np
 
 import api_temp
 
@@ -11,8 +8,7 @@ matplotlib.use('TkAgg')
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (
-    FigureCanvasTkAgg,
-    NavigationToolbar2Tk
+    FigureCanvasTkAgg
 )
 
 city_name = ''
@@ -21,20 +17,15 @@ city_name = ''
 def show_message():
     global city_name
     city_name = message.get()
-    # messagebox.showinfo("1AAAABBBB", city_name)
     # create a figure
     figure = Figure(figsize=(15, 10), dpi=100)
 
     # create FigureCanvasTkAgg object
     figure_canvas = FigureCanvasTkAgg(figure)
 
-    # create the toolbar
-#    NavigationToolbar2Tk(figure_canvas)
-
     d_cities_new = api_temp.get_cities_temp()
 
     axes = figure.add_subplot(2, 2, 1)  # строка, столбец, индекс графика
-
 
     cities_new = d_cities_new.keys()
     temper = d_cities_new.values()
@@ -67,7 +58,6 @@ def show_message():
 
     city_times2, valuee = api_temp.get_forecast_city_temp(city_name)
 
-
     axes3 = figure.add_subplot(2, 2, 3)
 
     axes3.plot(city_times2, valuee, label=f'Температура в {city_name}')
@@ -78,7 +68,6 @@ def show_message():
     axes3.set_xlabel('Дата/Время')
     axes3.legend()
     axes3.grid()
-
 
     city_times1, valuess = api_temp.get_forecast_city_feels_like(city_name)
 
@@ -91,6 +80,7 @@ def show_message():
     axes4.set_xlabel('Дата/Время')
     axes4.legend()
     axes4.grid()
+
 
 root = Tk()
 root.title("GUI на Python")
@@ -107,4 +97,3 @@ message_button.place(relx=.5, rely=.5, anchor="center")
 root.mainloop()
 
 print(city_name)
-
